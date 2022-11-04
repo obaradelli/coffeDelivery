@@ -2,6 +2,10 @@ import styled, { css } from 'styled-components'
 
 export const HeaderContainer = styled.header`
   ${({ theme }) => css`
+    position: fixed;
+    top: 0;
+    z-index: 99;
+
     display: flex;
     flex-direction: row;
     align-items: center;

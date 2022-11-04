@@ -8,7 +8,7 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  margin: 5.75rem 10rem;
+  margin: 7rem 10rem;
   gap: 3.5rem;
 `
 
