@@ -54,7 +54,15 @@ export function Intro() {
           </div>
         </div>
       </DivContainer>
-      <img src={coffeehome} />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img src={coffeehome} />
+      </div>
     </Container>
   )
 }
