@@ -1,22 +1,38 @@
 import { ShoppingCart } from 'phosphor-react'
+import { useState } from 'react'
 import { useTheme } from 'styled-components'
-import expresso from '../../../../../../assets/Expresso.svg'
+
+import { CoffeeProps } from '../../../../../../@types'
+import { useCart } from '../../../../../../hooks/useCart'
 
 import { Container, IconPlus, IconMinus } from './styles'
-
-interface CoffeeProps {
-  image: string
-  tag: string[]
-  name: string
-  description: string
-  price: string
-}
 
 interface CardProps {
   coffee: CoffeeProps
 }
 
 export const Card = ({ coffee }: CardProps) => {
+  const [quantity, setQuantity] = useState(1)
+  const { addCoffeeToCart } = useCart()
+
+  function handleIncrease() {
+    setQuantity((state) => state + 1)
+  }
+
+  function handleDecrease() {
+    if (quantity === 1) return
+
+    setQuantity((state) => state - 1)
+  }
+
+  function handleAddToCart() {
+    const coffeeToAdd = {
+      ...coffee,
+      quantity,
+    }
+    addCoffeeToCart(coffeeToAdd)
+  }
+
   const { colors } = useTheme()
 
   return (
@@ -33,7 +49,9 @@ export const Card = ({ coffee }: CardProps) => {
           }}
         >
           {coffee.tag.map((tag) => (
-            <span className="background-span">{tag}</span>
+            <span key={tag} className="background-span">
+              {tag}
+            </span>
           ))}
         </div>
         <div
@@ -63,11 +81,11 @@ export const Card = ({ coffee }: CardProps) => {
           }}
         >
           <button className="quantityProducts">
-            <IconPlus />
-            1
-            <IconMinus />
+            <IconMinus onClick={handleDecrease} />
+            {quantity}
+            <IconPlus onClick={handleIncrease} />
           </button>
-          <button className="shopping-cart">
+          <button onClick={handleAddToCart} className="shopping-cart">
             <ShoppingCart
               color={colors['base-white']}
               weight="fill"

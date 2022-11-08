@@ -8,8 +8,46 @@ import {
 } from 'phosphor-react'
 import { useTheme } from 'styled-components'
 
+import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+
+import { useAdress } from '../../../hooks/useAdress'
+
 export function Frame1() {
+  const {
+    cep,
+    rua,
+    numero,
+    complemento,
+    bairro,
+    cidade,
+    uf,
+    changeCep,
+    changeRua,
+    changeNumero,
+    changeComplemento,
+    changeBairro,
+    changeCidade,
+    changeUf,
+  } = useAdress()
   const { colors } = useTheme()
+
+  const { setFocus } = useForm()
+
+  const checkCep = (e: any) => {
+    const cep = e.target.value.replace(/\D/g, '')
+
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      .then((res) => res.json())
+      .then((data) => {
+        changeRua(data.logradouro)
+        changeBairro(data.bairro)
+        changeCidade(data.localidade)
+        changeUf(data.uf)
+        setFocus('number')
+      })
+  }
+
   return (
     <>
       <div>
@@ -32,19 +70,36 @@ export function Frame1() {
                     <p>Informe o endereço onde deseja receber seu pedido</p>
                   </div>
                 </div>
-                <div className="infos">
-                  <input className="cep" type="number" placeholder="CEP" />
-                  <input className="rua" type="text" placeholder="Rua" />
+                <form className="infos">
+                  <input
+                    className="cep"
+                    type="cel"
+                    value={cep}
+                    onChange={(e) => changeCep(e.target.value)}
+                    placeholder="CEP"
+                    onBlur={checkCep}
+                  />
+                  <input
+                    className="rua"
+                    type="text"
+                    value={rua}
+                    onChange={(e) => changeRua(e.target.value)}
+                    placeholder="Rua"
+                  />
                   <div>
                     <div className="infos-2">
                       <input
                         className="numero"
                         type="number"
+                        value={numero}
+                        onChange={(e) => changeNumero(e.target.value)}
                         placeholder="Número"
                       />
                       <input
                         className="complemento"
                         type="text"
+                        value={complemento}
+                        onChange={(e) => changeComplemento(e.target.value)}
                         placeholder="Complemento"
                       />
                     </div>
@@ -52,19 +107,28 @@ export function Frame1() {
                       <input
                         className="bairro"
                         type="text"
+                        value={bairro}
+                        onChange={(e) => changeBairro(e.target.value)}
                         placeholder="Bairro"
                       />
                       <input
                         className="cidade"
-                        type="text"
+                        value={cidade}
+                        onChange={(e) => changeCidade(e.target.value)}
                         placeholder="Cidade"
                       />
                       <div>
-                        <input className="uf" type="text" placeholder="UF" />
+                        <input
+                          className="uf"
+                          type="text"
+                          value={uf}
+                          onChange={(e) => changeUf(e.target.value)}
+                          placeholder="UF"
+                        />
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
               </Box>
             </div>
           </div>

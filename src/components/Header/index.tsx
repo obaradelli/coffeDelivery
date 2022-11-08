@@ -4,9 +4,11 @@ import { useTheme } from 'styled-components'
 import logoCoffe from '../../assets/logoCoffe.svg'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { NavLink, Outlet } from 'react-router-dom'
+import { useCart } from '../../hooks/useCart'
 
 export function Header() {
   const { colors } = useTheme()
+  const { cartQuantity, setItemInStorage } = useCart()
 
   return (
     <>
@@ -34,7 +36,7 @@ export function Header() {
                 type="shopping-cart-fill"
                 size={22}
               />
-              <span>3</span>
+              {cartQuantity >= 1 && <span>{cartQuantity}</span>}
             </button>
           </NavLink>
         </div>

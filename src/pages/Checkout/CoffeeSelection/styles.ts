@@ -37,7 +37,7 @@ export const DivCardCoffee = styled.div`
       gap: 24px;
 
       width: 448px;
-      height: 498px;
+      min-height: 498px;
       border-radius: 6px 44px;
 
       background-color: ${theme.colors['base-card']};
