@@ -94,7 +94,7 @@ export function Frame1() {
                       weight="regular"
                       type="map-pin-line"
                     />
-                    CARTÃO DE CRÉDTIO
+                    CARTÃO DE CRÉDITO
                   </button>
                 </div>
                 <div>

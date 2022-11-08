@@ -137,6 +137,13 @@ export const Container = styled.div`
 
       border-radius: 0.375rem;
       background: ${theme.colors['base-button']};
+
+      font-family: ${theme.fontFamily.roboto};
+      font-weight: ${theme.fontWeight.regular};
+      font-size: ${theme.fontSize[16]};
+      line-height: ${theme.lineHeight[130]};
+
+      color: ${theme.colors['base-title']};
     }
   `}
 `
