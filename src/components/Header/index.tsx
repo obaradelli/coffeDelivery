@@ -5,10 +5,41 @@ import logoCoffe from '../../assets/logoCoffe.svg'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useCart } from '../../hooks/useCart'
+import { useEffect, useState } from 'react'
+
+interface AdressProps {
+  cidade: string
+  uf: string
+}
 
 export function Header() {
   const { colors } = useTheme()
   const { cartQuantity, setItemInStorage } = useCart()
+
+  const [adress, setAdress] = useState<AdressProps>()
+
+  function setToLocalAdress() {
+    const adressStorage = localStorage.getItem('endereco')
+
+    if (!adressStorage) {
+      const jAdress = {
+        cidade: 'Santo André',
+        uf: 'SP',
+      }
+
+      setAdress(jAdress)
+
+      return
+    }
+
+    const jAdress = JSON.parse(adressStorage) as AdressProps
+
+    setAdress(jAdress)
+  }
+
+  useEffect(() => {
+    setToLocalAdress()
+  }, [])
 
   return (
     <>
@@ -25,7 +56,9 @@ export function Header() {
               type="map-pin-fill"
               size={22}
             />
-            <span>Porto Alegre, RS</span>
+            <span>
+              {adress?.cidade}, {adress?.uf}
+            </span>
           </button>
 
           <NavLink to="/checkout" title="checkout">

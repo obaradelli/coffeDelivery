@@ -1,5 +1,7 @@
+import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import { dataFakeSelection } from '../../../database/fakeSelection'
+import { useAdress } from '../../../hooks/useAdress'
 import { useCart } from '../../../hooks/useCart'
 import { formatMoney } from '../../../utils/formatMoney'
 
@@ -16,6 +18,8 @@ import {
 const DELIVERY_PRICE = 3.5
 
 export const Frame2 = () => {
+  const { setStorage } = useAdress()
+
   const { cartItems, cartItemsTotal, cartQuantity } = useCart()
   const cartTotal = DELIVERY_PRICE + cartItemsTotal
 
@@ -54,7 +58,12 @@ export const Frame2 = () => {
               CONFIRMAR PEDIDO
             </button>
           ) : (
-            <NavLink to="/sucess" title="sucess" className="buttonbuy">
+            <NavLink
+              to="/sucess"
+              title="sucess"
+              className="buttonbuy"
+              onClick={setStorage}
+            >
               CONFIRMAR PEDIDO
             </NavLink>
           )}

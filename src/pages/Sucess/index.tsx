@@ -3,8 +3,56 @@ import { MapPin, Timer, CurrencyDollar } from 'phosphor-react'
 
 import Illustration from '../../assets/Illustration.svg'
 import { ThemeConsumer } from 'styled-components'
+import { useEffect, useState } from 'react'
+
+type PaymentType = 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro' | ''
+
+interface AdressProps {
+  cep: string
+  rua: string
+  numero: string
+  complemento: string
+  bairro: string
+  cidade: string
+  uf: string
+  changeCep: string
+  changeRua: string
+  changeNumero: string
+  changeComplemento: string
+  changeBairro: string
+  changeCidade: string
+  changeUf: string
+}
 
 export function Sucess() {
+  const [adress, setAdress] = useState<AdressProps>()
+  const [payment, setPaymant] = useState<PaymentType>('')
+
+  function setToLocalPayment() {
+    const paymentStorage = localStorage.getItem('pagamento') as PaymentType
+
+    if (!paymentStorage) return
+
+    setPaymant(paymentStorage)
+  }
+
+  function setToLocalAdress() {
+    const adressStorage = localStorage.getItem('endereco')
+
+    if (!adressStorage) return
+
+    const jAdress = JSON.parse(adressStorage) as AdressProps
+
+    console.log(jAdress)
+
+    setAdress(jAdress)
+  }
+
+  useEffect(() => {
+    setToLocalPayment()
+    setToLocalAdress()
+  }, [])
+
   return (
     <DivContainer>
       <div className="geral">
@@ -23,10 +71,15 @@ export function Sucess() {
                 </div>
                 <div>
                   <h3>
-                    Entrega em <h4> Rua João Daniel Martinelli, 102</h4>
+                    Entrega em{' '}
+                    <h4>
+                      {adress?.rua}, {adress?.numero}
+                    </h4>
                   </h3>
                   <div className="separator">
-                    <p>Farrapos - Porto Alegre, RS</p>
+                    <p>
+                      {adress?.bairro} - {adress?.cidade}, {adress?.uf}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -57,7 +110,7 @@ export function Sucess() {
                   <h3>Pagamento na entrega</h3>
                   <div className="separator">
                     <p>
-                      <h4>Cartão de crédito</h4>
+                      <h4>{payment}</h4>
                     </p>
                   </div>
                 </div>

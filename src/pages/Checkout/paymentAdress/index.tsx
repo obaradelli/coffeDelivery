@@ -48,6 +48,12 @@ export function Frame1() {
       })
   }
 
+  function setFormaPagamento(
+    formaPagamento: 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro'
+  ) {
+    localStorage.setItem('pagamento', formaPagamento)
+  }
+
   return (
     <>
       <div>
@@ -151,7 +157,10 @@ export function Frame1() {
             <div className="formas-de-pagamento">
               <div className="direction">
                 <div>
-                  <button className="card">
+                  <button
+                    className="card"
+                    onClick={() => setFormaPagamento('Cartão de Credíto')}
+                  >
                     <CreditCard
                       color={colors['purple-']}
                       size={22}
@@ -162,7 +171,10 @@ export function Frame1() {
                   </button>
                 </div>
                 <div>
-                  <button className="card">
+                  <button
+                    className="card"
+                    onClick={() => setFormaPagamento('Cartão de Débito')}
+                  >
                     <Bank
                       color={colors['purple-']}
                       size={22}
@@ -173,7 +185,10 @@ export function Frame1() {
                   </button>
                 </div>
                 <div>
-                  <button className="card">
+                  <button
+                    className="card"
+                    onClick={() => setFormaPagamento('Dinheiro')}
+                  >
                     <Money
                       color={colors['purple-']}
                       size={22}
