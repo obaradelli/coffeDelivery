@@ -4,6 +4,7 @@ import { MapPin, Timer, CurrencyDollar } from 'phosphor-react'
 import Illustration from '../../assets/Illustration.svg'
 import { ThemeConsumer } from 'styled-components'
 import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
 type PaymentType = 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro' | ''
 
@@ -118,8 +119,15 @@ export function Sucess() {
             </div>
           </div>
         </div>
-        <div>
-          <img src={Illustration} />
+        <div className="dpflex">
+          <div>
+            <img src={Illustration} />
+          </div>
+          <div>
+            <NavLink to="/" onClick={() => localStorage.clear()}>
+              <button>Cadastrar novo pedido</button>
+            </NavLink>
+          </div>
         </div>
       </div>
     </DivContainer>

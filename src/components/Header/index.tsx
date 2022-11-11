@@ -13,8 +13,22 @@ interface AdressProps {
 }
 
 export function Header() {
+  const [cartQuantity, setCartQuantity] = useState<number>(0)
   const { colors } = useTheme()
-  const { cartQuantity, setItemInStorage } = useCart()
+
+  const getCartQuantity = () => {
+    const jCartItems = localStorage.getItem('coffeDelivery:cartItems')
+
+    console.log(jCartItems)
+
+    if (!jCartItems) return
+
+    const cartItems = JSON.parse(jCartItems)
+
+    console.log(cartItems)
+
+    setCartQuantity(cartItems.lenght)
+  }
 
   const [adress, setAdress] = useState<AdressProps>()
 
@@ -39,6 +53,7 @@ export function Header() {
 
   useEffect(() => {
     setToLocalAdress()
+    getCartQuantity()
   }, [])
 
   return (

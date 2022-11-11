@@ -176,5 +176,48 @@ export const DivContainer = styled.div`
       background: #c47f17;
       border-radius: 1000px;
     }
+
+    .dpflex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      button {
+     
+          all:unset;
+          cursor: pointer;
+
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 12px 8px;
+          gap:4px
+
+          width: 368px;
+          height: 20px;
+
+          background: ${theme.colors['yellow-']};
+          border: 1px solid #000000;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          border-radius: 6px;
+
+
+          font-family: ${theme.fontFamily.roboto};
+          font-weight: ${theme.fontWeight.extraBold};
+          font-size: ${theme.fontSize[14]};
+          line-height: ${theme.lineHeight[160]};
+
+          font-style: normal;
+          color: ${theme.colors['base-white']};
+
+          &:hover {
+            background: ${theme.colors['yellow-dark']};
+          }
+
+        
+      }
+    }
   `}
 `
