@@ -13,7 +13,12 @@ import { useState } from 'react'
 
 import { useAdress } from '../../../hooks/useAdress'
 
+type paymentForm = 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro'
+
 export function Frame1() {
+  const [paymentForm, setPaymentForm] =
+    useState<paymentForm>('Cartão de Credíto')
+
   const {
     cep,
     rua,
@@ -51,6 +56,7 @@ export function Frame1() {
   function setFormaPagamento(
     formaPagamento: 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro'
   ) {
+    setPaymentForm(formaPagamento)
     localStorage.setItem('pagamento', formaPagamento)
   }
 
@@ -159,6 +165,12 @@ export function Frame1() {
                 <div>
                   <button
                     className="card"
+                    style={{
+                      border:
+                        paymentForm === 'Cartão de Credíto'
+                          ? `2px solid ${colors['purple-']}`
+                          : '2px solid transparent',
+                    }}
                     onClick={() => setFormaPagamento('Cartão de Credíto')}
                   >
                     <CreditCard
@@ -173,6 +185,12 @@ export function Frame1() {
                 <div>
                   <button
                     className="card"
+                    style={{
+                      border:
+                        paymentForm === 'Cartão de Débito'
+                          ? `2px solid ${colors['purple-']}`
+                          : '2px solid transparent',
+                    }}
                     onClick={() => setFormaPagamento('Cartão de Débito')}
                   >
                     <Bank
@@ -187,6 +205,12 @@ export function Frame1() {
                 <div>
                   <button
                     className="card"
+                    style={{
+                      border:
+                        paymentForm === 'Dinheiro'
+                          ? `2px solid ${colors['purple-']}`
+                          : '2px solid transparent',
+                    }}
                     onClick={() => setFormaPagamento('Dinheiro')}
                   >
                     <Money
