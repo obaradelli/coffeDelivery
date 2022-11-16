@@ -1,94 +1,60 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 
-interface AdressContextType {
+export interface AdressProps {
   cep: string
   rua: string
   numero: string
-  complemento: string
+  complemento?: string
   bairro: string
   cidade: string
   uf: string
-  changeCep: (value: string) => void
-  changeRua: (value: string) => void
-  changeNumero: (value: string) => void
-  changeComplemento: (value: string) => void
-  changeBairro: (value: string) => void
-  changeCidade: (value: string) => void
-  changeUf: (value: string) => void
-  setStorage: () => void
+}
+
+interface AdressContextType {
+  adress: AdressProps
+  setEndereco: (endereco: AdressProps) => void
+  setValue: (nome: string, value: string) => void
+  clearAddress: () => void
 }
 
 interface AdressContextProps {
   children: ReactNode
 }
 
+const COFFEE_ADRESS_IN_STORAGE_KEY = 'coffeDelivery:endereco'
+
 export const AdressContext = createContext({} as AdressContextType)
 
 export const AdressContextProvider = ({ children }: AdressContextProps) => {
-  const [cep, setCep] = useState('')
-  const [rua, setRua] = useState('')
-  const [numero, setNumero] = useState('')
-  const [complemento, setComplemento] = useState('')
-  const [bairro, setBairro] = useState('')
-  const [cidade, setCidade] = useState('')
-  const [uf, setUf] = useState('')
-
-  const changeCep = (value: string) => {
-    setCep(value)
-  }
-  const changeRua = (value: string) => {
-    setRua(value)
-  }
-  const changeNumero = (value: string) => {
-    setNumero(value)
-  }
-  const changeComplemento = (value: string) => {
-    setComplemento(value)
-  }
-  const changeBairro = (value: string) => {
-    setBairro(value)
-  }
-  const changeCidade = (value: string) => {
-    setCidade(value)
-  }
-  const changeUf = (value: string) => {
-    setUf(value)
-  }
-
-  const setStorage = () => {
-    const endereco = {
-      cep,
-      rua,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      uf,
+  const [adress, setAdress] = useState<AdressProps>(() => {
+    const storadCartAdress = localStorage.getItem(COFFEE_ADRESS_IN_STORAGE_KEY)
+    if (storadCartAdress) {
+      return JSON.parse(storadCartAdress)
     }
+    return {} as AdressProps
+  })
 
-    const jEndereco = JSON.stringify(endereco)
-    localStorage.setItem('endereco', jEndereco)
+  const setEndereco = (endereco: AdressProps) => {
+    setAdress(endereco)
   }
+
+  function setValue(nome: string, value: string) {
+    setAdress((prevState) => {
+      return { ...prevState, [`${nome}`]: value }
+    })
+  }
+
+  function clearAddress() {
+    setAdress({} as AdressProps)
+  }
+
+  useEffect(() => {
+    localStorage.setItem(COFFEE_ADRESS_IN_STORAGE_KEY, JSON.stringify(adress))
+  }, [adress])
 
   return (
     <AdressContext.Provider
-      value={{
-        cep,
-        rua,
-        numero,
-        complemento,
-        bairro,
-        cidade,
-        uf,
-        changeCep,
-        changeRua,
-        changeNumero,
-        changeComplemento,
-        changeBairro,
-        changeCidade,
-        changeUf,
-        setStorage,
-      }}
+      value={{ adress, setEndereco, setValue, clearAddress }}
     >
       {children}
     </AdressContext.Provider>

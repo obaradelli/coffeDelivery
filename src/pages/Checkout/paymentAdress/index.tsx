@@ -12,29 +12,17 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 
 import { useAdress } from '../../../hooks/useAdress'
+import { AdressProps } from '../../../contexts/AdressContext'
+import { NavLink } from 'react-router-dom'
 
 type paymentForm = 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro'
 
 export function Frame1() {
+  const { adress, setEndereco, setValue } = useAdress()
+
   const [paymentForm, setPaymentForm] =
     useState<paymentForm>('Cartão de Credíto')
 
-  const {
-    cep,
-    rua,
-    numero,
-    complemento,
-    bairro,
-    cidade,
-    uf,
-    changeCep,
-    changeRua,
-    changeNumero,
-    changeComplemento,
-    changeBairro,
-    changeCidade,
-    changeUf,
-  } = useAdress()
   const { colors } = useTheme()
 
   const { setFocus } = useForm()
@@ -45,11 +33,17 @@ export function Frame1() {
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then((res) => res.json())
       .then((data) => {
-        changeRua(data.logradouro)
-        changeBairro(data.bairro)
-        changeCidade(data.localidade)
-        changeUf(data.uf)
+        const dataAdress = {
+          cep: cep,
+          rua: data.logradouro,
+          numero: '',
+          complemento: '',
+          bairro: data.bairro,
+          cidade: data.localidade,
+          uf: data.uf,
+        }
         setFocus('number')
+        setEndereco(dataAdress)
       })
   }
 
@@ -86,16 +80,14 @@ export function Frame1() {
                   <input
                     className="cep"
                     type="cel"
-                    value={cep}
-                    onChange={(e) => changeCep(e.target.value)}
                     placeholder="CEP"
                     onBlur={checkCep}
                   />
                   <input
                     className="rua"
                     type="text"
-                    value={rua}
-                    onChange={(e) => changeRua(e.target.value)}
+                    value={adress?.rua}
+                    onChange={(e) => setValue('rua', e.target.value)}
                     placeholder="Rua"
                   />
                   <div>
@@ -103,15 +95,17 @@ export function Frame1() {
                       <input
                         className="numero"
                         type="number"
-                        value={numero}
-                        onChange={(e) => changeNumero(e.target.value)}
+                        value={adress?.numero}
+                        onChange={(e) => setValue('numero', e.target.value)}
                         placeholder="Número"
                       />
                       <input
                         className="complemento"
                         type="text"
-                        value={complemento}
-                        onChange={(e) => changeComplemento(e.target.value)}
+                        value={adress?.complemento}
+                        onChange={(e) =>
+                          setValue('complemento', e.target.value)
+                        }
                         placeholder="Complemento"
                       />
                     </div>
@@ -119,22 +113,22 @@ export function Frame1() {
                       <input
                         className="bairro"
                         type="text"
-                        value={bairro}
-                        onChange={(e) => changeBairro(e.target.value)}
+                        value={adress?.bairro}
+                        onChange={(e) => setValue('bairro', e.target.value)}
                         placeholder="Bairro"
                       />
                       <input
                         className="cidade"
-                        value={cidade}
-                        onChange={(e) => changeCidade(e.target.value)}
+                        value={adress?.cidade}
+                        onChange={(e) => setValue('cidade', e.target.value)}
                         placeholder="Cidade"
                       />
                       <div>
                         <input
                           className="uf"
                           type="text"
-                          value={uf}
-                          onChange={(e) => changeUf(e.target.value)}
+                          value={adress?.uf}
+                          onChange={(e) => setValue('uf', e.target.value)}
                           placeholder="UF"
                         />
                       </div>

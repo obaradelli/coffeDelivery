@@ -211,7 +211,27 @@ export const DivCardCoffee = styled.div`
           }
 
         }
-    }
+
+        .continuebuy {
+
+          all:unset;
+          cursor: pointer;
+
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          font-family: ${theme.fontFamily.roboto};
+          font-weight: ${theme.fontWeight.extraBold};
+          font-size: ${theme.fontSize[14]};
+          line-height: ${theme.lineHeight[160]};
+
+          font-style: normal;
+          color: ${theme.colors['yellow-']};
+
+         }
+     
   `}
 `
 

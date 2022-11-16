@@ -5,6 +5,8 @@ import Illustration from '../../assets/Illustration.svg'
 import { ThemeConsumer } from 'styled-components'
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useCart } from '../../hooks/useCart'
+import { useAdress } from '../../hooks/useAdress'
 
 type PaymentType = 'Cartão de Credíto' | 'Cartão de Débito' | 'Dinheiro' | ''
 
@@ -26,7 +28,8 @@ interface AdressProps {
 }
 
 export function Sucess() {
-  const [adress, setAdress] = useState<AdressProps>()
+  const { clearCart } = useCart()
+  const { adress, clearAddress } = useAdress()
   const [payment, setPaymant] = useState<PaymentType>('')
 
   function setToLocalPayment() {
@@ -37,21 +40,8 @@ export function Sucess() {
     setPaymant(paymentStorage)
   }
 
-  function setToLocalAdress() {
-    const adressStorage = localStorage.getItem('endereco')
-
-    if (!adressStorage) return
-
-    const jAdress = JSON.parse(adressStorage) as AdressProps
-
-    console.log(jAdress)
-
-    setAdress(jAdress)
-  }
-
   useEffect(() => {
     setToLocalPayment()
-    setToLocalAdress()
   }, [])
 
   return (
@@ -124,7 +114,13 @@ export function Sucess() {
             <img src={Illustration} />
           </div>
           <div>
-            <NavLink to="/" onClick={() => localStorage.clear()}>
+            <NavLink
+              to="/"
+              onClick={() => {
+                clearAddress()
+                clearCart()
+              }}
+            >
               <button>Cadastrar novo pedido</button>
             </NavLink>
           </div>

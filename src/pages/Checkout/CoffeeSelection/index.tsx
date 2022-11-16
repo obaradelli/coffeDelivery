@@ -18,7 +18,7 @@ import {
 const DELIVERY_PRICE = 3.5
 
 export const Frame2 = () => {
-  const { setStorage } = useAdress()
+  const { adress } = useAdress()
 
   const { cartItems, cartItemsTotal, cartQuantity } = useCart()
   const cartTotal = DELIVERY_PRICE + cartItemsTotal
@@ -43,27 +43,29 @@ export const Frame2 = () => {
                 <h3>Total de itens</h3>
                 <p>{formattedItemsTotal}</p>
               </div>
+
               <div className="tabelaprice">
                 <h3>Entrega</h3>
                 <p>{formattedDeliveryPrice}</p>
               </div>
+
               <div className="total">
                 <h3>Total</h3>
                 <p>{formattedCartTotal}</p>
               </div>
             </div>
           </Tabel>
-          {!cartItems.length ? (
+
+          <NavLink to="/" title="home">
+            <div className="continuebuy">CONTINUAR COMPRANDO</div>
+          </NavLink>
+
+          {!cartItems.length || !!!adress.numero ? (
             <button title="sucess" className="buttonbuy">
               CONFIRMAR PEDIDO
             </button>
           ) : (
-            <NavLink
-              to="/sucess"
-              title="sucess"
-              className="buttonbuy"
-              onClick={setStorage}
-            >
+            <NavLink to="/sucess" title="sucess" className="buttonbuy">
               CONFIRMAR PEDIDO
             </NavLink>
           )}
